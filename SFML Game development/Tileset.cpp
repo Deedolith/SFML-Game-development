@@ -39,6 +39,11 @@ namespace Maps
 		return mTilesRect[tileID];
 	}
 
+	sf::Texture& Tileset::getTexture()
+	{
+		return mTexture;
+	}
+
 	sf::Texture const& Tileset::getTexture() const
 	{
 		return mTexture;

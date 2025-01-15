@@ -6,12 +6,12 @@ namespace Fonts
 	{
 		Font::Font() :
 			mTexture{},
-			mGlyphSize{ 8u, 8u },
+			mGlyphSize{ 8.f, 8.f },
 			mCharacters{ "\"#$%&'()*+,-./0123456789:;<=>?ABCDEFGHIJKLMNOPQRSTUVWXYZ!_ " }
 		{
 		}
 
-		Font::Font(std::filesystem::path const& path, sf::Vector2i glyphSize, sf::String const& characters) :
+		Font::Font(std::filesystem::path const& path, sf::Vector2f glyphSize, sf::String const& characters) :
 			mTexture{ path },
 			mGlyphSize{ glyphSize },
 			mCharacters{ characters }
@@ -33,12 +33,12 @@ namespace Fonts
 			return mTexture;
 		}
 
-		sf::Vector2i Font::getGlyphSize() const
+		sf::Vector2f Font::getGlyphSize() const
 		{
 			return mGlyphSize;
 		}
 
-		void Font::setGlyphSize(sf::Vector2i glyphSize)
+		void Font::setGlyphSize(sf::Vector2f glyphSize)
 		{
 			mGlyphSize = glyphSize;
 		}
@@ -55,7 +55,7 @@ namespace Fonts
 			{
 				return Glyph{ sf::IntRect{ sf::Vector2i{ 0, 0 }, sf::Vector2i{ 0, 0 }} };
 			}
-			sf::IntRect rect{ sf::Vector2i{ static_cast<int>(index) * mGlyphSize.x, 0 }, mGlyphSize };
+			sf::IntRect rect{ sf::Vector2i{ static_cast<int>(index * mGlyphSize.x), 0 }, static_cast<sf::Vector2i>(mGlyphSize) };
 			return Glyph{ rect };
 		}
 

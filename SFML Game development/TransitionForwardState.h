@@ -1,7 +1,6 @@
 #pragma once
 
 #include <optional>
-#include <chrono>
 #include <vector>
 
 #include <SFML/System/Time.hpp>

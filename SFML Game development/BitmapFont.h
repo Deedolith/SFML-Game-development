@@ -16,16 +16,16 @@ namespace Fonts
 		{
 		private:
 			sf::Texture mTexture;
-			sf::Vector2i mGlyphSize;
+			sf::Vector2f mGlyphSize;
 			sf::String mCharacters;
 		public:
 			Font();
-			Font(std::filesystem::path const& path, sf::Vector2i glyphSize = sf::Vector2i{ 8, 8 }, sf::String const& characters = "\"#$%&'()*+,-./0123456789:;<=>?ABCDEFGHIJKLMNOPQRSTUVWXYZ!_ ");
+			Font(std::filesystem::path const& path, sf::Vector2f glyphSize = sf::Vector2f{ 8.f, 8.f }, sf::String const& characters = "\"#$%&'()*+,-./0123456789:;<=>?ABCDEFGHIJKLMNOPQRSTUVWXYZ!_ ");
 			bool loadFromFile(std::filesystem::path const& path);
 			sf::Texture& getTexture();
 			sf::Texture const& getTexture() const;
-			sf::Vector2i getGlyphSize() const;
-			void setGlyphSize(sf::Vector2i glyphSize);
+			sf::Vector2f getGlyphSize() const;
+			void setGlyphSize(sf::Vector2f glyphSize);
 			sf::String const getCharacters() const;
 			Glyph getGlyph(char32_t character) const;
 			bool hasGlyph(char32_t character) const;

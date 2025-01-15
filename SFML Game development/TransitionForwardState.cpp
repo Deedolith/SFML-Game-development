@@ -60,7 +60,7 @@ namespace States
 	bool TransitionForwardState::update(sf::Time dt)
 	{
 		mElapsedTime += dt;
-		std::chrono::milliseconds duration{ mMap.getProperty("Duration").as_uint() };
+		sf::Time duration{ sf::microseconds(mMap.getProperty("Duration").as_int()) };
 		if (mElapsedTime >= duration)
 		{
 			requestStackPop();

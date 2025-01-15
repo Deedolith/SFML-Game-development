@@ -5,6 +5,7 @@
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
+#include <SFML/System/Time.hpp>
 
 #include "Component.h"
 
@@ -29,6 +30,7 @@ namespace GUI
 		void pack(Component::Ptr component);
 		bool isSelectable() const override;
 		void handleEvent(std::optional<sf::Event> const& event) override;
+		void update(sf::Time dt) override;
 	};
 }
 

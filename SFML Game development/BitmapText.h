@@ -28,6 +28,8 @@ namespace Fonts
 			void buildSprites();
 		public:
 			Text(Font const& font, sf::String const& text = sf::String{});
+			Text(Text const&) = delete;
+			Text& operator=(Text const&) = delete;
 			sf::FloatRect getLocalBounds() const;
 			void setText(sf::String const& text);
 		};

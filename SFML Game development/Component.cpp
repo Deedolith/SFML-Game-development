@@ -39,3 +39,7 @@ void GUI::Component::deactivate()
 {
 	mIsActive = false;
 }
+
+void GUI::Component::update(sf::Time dt)
+{
+}

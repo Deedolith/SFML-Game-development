@@ -16,7 +16,7 @@ namespace States
 		mGUIcontainer{}
 	{
 		auto playButton{ std::make_shared<GUI::Button>(*context.bitmapFonts, *context.textures, "PLAY") };
-		playButton->setPosition(context.window->getView().getSize() / 2.f);
+		playButton->setPosition(context.window->getView().getSize() / 2.f - sf::Vector2f{ 0.f, 24.f });
 		playButton->setCallback([this]()
 			{
 				requestStackPushFront(States::ID::Game);
@@ -25,7 +25,7 @@ namespace States
 		mGUIcontainer.pack(playButton);
 
 		auto exitButton{ std::make_shared<GUI::Button>(*context.bitmapFonts, *context.textures, "EXIT") };
-		exitButton->setPosition(playButton->getPosition() + sf::Vector2f{ 0.f, 10.f });
+		exitButton->setPosition(playButton->getPosition() + sf::Vector2f{ 0.f, 48.f });
 		exitButton->setCallback([this]()
 			{
 				requestStackPop();
@@ -44,6 +44,7 @@ namespace States
 
 	bool MenuState::update(sf::Time dt)
 	{
+		mGUIcontainer.update(dt);
 		return false;
 	}
 

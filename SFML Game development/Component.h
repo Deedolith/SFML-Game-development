@@ -5,6 +5,7 @@
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Window/Event.hpp>
+#include <SFML/System/Time.hpp>
 
 namespace GUI
 {
@@ -30,5 +31,6 @@ namespace GUI
 		virtual void activate();
 		virtual void deactivate();
 		virtual void handleEvent(std::optional<sf::Event> const& event) = 0;
+		virtual void update(sf::Time dt);
 	};
 }

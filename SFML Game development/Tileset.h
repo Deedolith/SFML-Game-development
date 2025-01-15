@@ -20,6 +20,7 @@ namespace Maps
 		Tileset() = delete;
 		Tileset(std::filesystem::path const& path);
 		sf::IntRect const getTextureRect(unsigned tileID) const;
+		sf::Texture& getTexture();
 		sf::Texture const& getTexture() const;
 		unsigned getTileCount() const;
 	};

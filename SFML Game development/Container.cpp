@@ -89,3 +89,9 @@ void GUI::Container::handleEvent(std::optional<sf::Event> const& event)
 		}
 	}
 }
+
+void GUI::Container::update(sf::Time dt)
+{
+	for (auto const& child : mChildren)
+		child->update(dt);
+}

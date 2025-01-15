@@ -13,6 +13,7 @@ namespace Maps
 	public:
 		Property(std::string const& value);
 		unsigned as_uint() const;
+		int as_int() const;
 		std::string as_string() const;
 	};
 }

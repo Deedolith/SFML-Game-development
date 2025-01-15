@@ -2,6 +2,7 @@
 
 #include <optional>
 #include <vector>
+#include <memory>
 
 #include <SFML/System/Time.hpp>
 #include <SFML/Window/Event.hpp>
@@ -16,7 +17,10 @@ namespace States
 		public State
 	{
 	private:
-		std::vector<Fonts::Bitmaps::Text> mTextRows;
+		using BitmapText = Fonts::Bitmaps::Text;
+		using Ptr = std::unique_ptr<BitmapText>;
+	private:
+		std::vector<Ptr> mTextRows;
 	public:
 		PauseState(StateStack& stack, State::Context context);
 		void draw() override;
