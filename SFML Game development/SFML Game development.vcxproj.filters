@@ -120,6 +120,9 @@
     <ClCompile Include="SettingState.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="ToggleButton.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h">
@@ -272,6 +275,9 @@
     <ClInclude Include="SettingState.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="ToggleButton.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="RessourceHolder.inl">
@@ -284,6 +290,9 @@
       <Filter>Fichiers sources</Filter>
     </None>
     <None Include="StateStack.inl">
+      <Filter>Fichiers sources</Filter>
+    </None>
+    <None Include="Utilities.inl">
       <Filter>Fichiers sources</Filter>
     </None>
   </ItemGroup>

@@ -19,8 +19,6 @@ namespace States
 	private:
 		Maps::Map mBackground;
 		GUI::Container mGUIcontainer;
-	private:
-
 	public:
 		MenuState(StateStack& stack, State::Context context);
 		void draw() override;

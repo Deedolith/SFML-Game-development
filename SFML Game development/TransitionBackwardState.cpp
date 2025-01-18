@@ -1,5 +1,7 @@
 #include <algorithm>
 
+#include <SFML/Graphics/RenderWindow.hpp>
+
 #include "TransitionBackwardState.h"
 
 namespace States
@@ -14,7 +16,7 @@ namespace States
 	{
 		for (size_t i{ 0 }; i < mLayerVisibilities[index].size(); ++i)
 		{
-			std::chrono::milliseconds duration{ std::chrono::milliseconds::zero() };
+			sf::Time duration{ sf::Time::Zero };
 			for (auto const& visibility : mLayerVisibilities[index])
 			{
 				duration += visibility.getDuration();
@@ -31,7 +33,9 @@ namespace States
 		State{ stack, context },
 		mElapsedTime{ sf::Time::Zero },
 		mMap{ context.maps->get(Maps::ID::Transition) },
-		mLayerVisibilities{}
+		mLayerVisibilities{},
+		mTimePerFrame{ sf::seconds(1.f / 60.f )},
+		mDuration{ sf::seconds(mMap.getProperty("Duration").as_float() * mTimePerFrame.asSeconds()) }
 	{
 		for (unsigned i{ 0 }; i < mMap.getLayerCount(); ++i)
 		{
@@ -45,7 +49,7 @@ namespace States
 			for (auto const& item : items)
 			{
 				bool visible{ item.node().attribute("visible").as_bool() };
-				unsigned duration{ item.node().attribute("duration").as_uint() };
+				sf::Time duration{ sf::seconds(item.node().attribute("frames").as_float() * mTimePerFrame.asSeconds()) };
 				visibilities.push_back(Visibility{ visible, duration });
 				std::reverse(visibilities.begin(), visibilities.end());
 			}
@@ -64,8 +68,7 @@ namespace States
 	bool TransitionBackwardState::update(sf::Time dt)
 	{
 		mElapsedTime += dt;
-		sf::Time duration{ sf::milliseconds(mMap.getProperty("Duration").as_int()) };
-		if (mElapsedTime >= duration)
+		if (mElapsedTime >= mDuration)
 			requestStackPop();
 		else
 			updateLayers();

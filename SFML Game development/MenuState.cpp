@@ -3,6 +3,7 @@
 
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Event.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 
 #include "MenuState.h"
 #include "Utilities.h"
@@ -15,8 +16,9 @@ namespace States
 		mBackground{ context.maps->get(Maps::ID::Title) },
 		mGUIcontainer{}
 	{
-		auto playButton{ std::make_shared<GUI::Button>(*context.bitmapFonts, *context.textures, "PLAY") };
-		playButton->setPosition(context.window->getView().getSize() / 2.f - sf::Vector2f{ 0.f, 24.f });
+		auto playButton{ std::make_shared<GUI::Button>("PLAY",  *getContext().bitmapFonts, *getContext().textures)};
+		centerOrigin(*playButton);
+		playButton->setPosition(context.window->getView().getSize() / 2.f - sf::Vector2f{ 0.f, 20.f });
 		playButton->setCallback([this]()
 			{
 				requestStackPushFront(States::ID::Game);
@@ -24,8 +26,18 @@ namespace States
 			});
 		mGUIcontainer.pack(playButton);
 
-		auto exitButton{ std::make_shared<GUI::Button>(*context.bitmapFonts, *context.textures, "EXIT") };
-		exitButton->setPosition(playButton->getPosition() + sf::Vector2f{ 0.f, 48.f });
+		auto settingsButton{ std::make_shared<GUI::Button>("SETTINGS", *getContext().bitmapFonts, *getContext().textures) };
+		centerOrigin(*settingsButton);
+		settingsButton->setPosition(playButton->getPosition() + sf::Vector2f{ 0.f, 40.f });
+		settingsButton->setCallback([this]()
+			{
+				requestStackPushBack(States::ID::Settings);
+			});
+		mGUIcontainer.pack(settingsButton);
+
+		auto exitButton{ std::make_shared<GUI::Button>("EXIT", *getContext().bitmapFonts, *getContext().textures)};
+		centerOrigin(*exitButton);
+		exitButton->setPosition(settingsButton->getPosition() + sf::Vector2f{ 0.f, 40.f });
 		exitButton->setCallback([this]()
 			{
 				requestStackPop();
@@ -51,6 +63,6 @@ namespace States
 	bool States::MenuState::handleEvent(std::optional<sf::Event> const& event)
 	{
 		mGUIcontainer.handleEvent(event);
-		return true;
+		return false;
 	}
 }

@@ -46,7 +46,7 @@ namespace States
 
 	bool TitleState::handleEvent(std::optional<sf::Event> const& event)
 	{
-		if (event->getIf<sf::Event::KeyPressed>())
+		if (event->getIf<sf::Event::KeyReleased>())
 		{
 			requestStackPop();
 			requestStackPushBack(States::ID::Menu);

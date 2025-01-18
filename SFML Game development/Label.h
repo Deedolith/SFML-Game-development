@@ -4,6 +4,7 @@
 
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/Rect.hpp>
 
 #include "Component.h"
 #include "BitmapText.h"
@@ -23,6 +24,7 @@ namespace GUI
 	public:
 		Label(std::string const& text, Fonts::Bitmaps::ID color, Fonts::Bitmaps::FontsHolder& fonts);
 		bool isSelectable() const override final;
-		void handleEvent(std::optional<sf::Event> const& event) override final;
+		void setText(std::string const& text);
+		sf::FloatRect getLocalBounds() const;
 	};
 }

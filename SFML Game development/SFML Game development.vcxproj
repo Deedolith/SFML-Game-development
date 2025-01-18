@@ -132,7 +132,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -183,6 +183,7 @@
     <ClCompile Include="StateStack.cpp" />
     <ClCompile Include="Tileset.cpp" />
     <ClCompile Include="TitleState.cpp" />
+    <ClCompile Include="ToggleButton.cpp" />
     <ClCompile Include="TransitionBackwardState.cpp" />
     <ClCompile Include="TransitionForwardState.cpp" />
     <ClCompile Include="Utilities.cpp" />
@@ -235,6 +236,7 @@
     <ClInclude Include="TexturesHolder.h" />
     <ClInclude Include="Tileset.h" />
     <ClInclude Include="TitleState.h" />
+    <ClInclude Include="ToggleButton.h" />
     <ClInclude Include="TransitionBackwardState.h" />
     <ClInclude Include="TransitionForwardState.h" />
     <ClInclude Include="Utilities.h" />
@@ -246,6 +248,7 @@
     <None Include="RessourceHolder.inl" />
     <None Include="RessourceLoader.inl" />
     <None Include="StateStack.inl" />
+    <None Include="Utilities.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

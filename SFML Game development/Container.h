@@ -29,7 +29,7 @@ namespace GUI
 		Container();
 		void pack(Component::Ptr component);
 		bool isSelectable() const override;
-		void handleEvent(std::optional<sf::Event> const& event) override;
+		bool handleEvent(std::optional<sf::Event> const& event) override;
 		void update(sf::Time dt) override;
 	};
 }

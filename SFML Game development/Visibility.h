@@ -1,15 +1,15 @@
 #pragma once
 
-#include <chrono>
+#include <SFML/System/Time.hpp>
 
 class Visibility
 {
 private:
 	bool mState;
-	std::chrono::milliseconds mDuration;
+	sf::Time mDuration;
 public:
-	Visibility(bool state, unsigned duration);
+	Visibility(bool state, sf::Time duration);
 	bool getState() const;
-	std::chrono::milliseconds getDuration() const;
+	sf::Time getDuration() const;
 };
 

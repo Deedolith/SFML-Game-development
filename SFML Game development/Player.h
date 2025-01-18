@@ -12,16 +12,18 @@
 class Player
 {
 public:
-	enum class Action
+	enum Action
 	{
 		MoveLeft,
 		MoveRight,
 		MoveUp,
 		MoveDown,
-		Fire
+		Fire,
+		LaunchMissile,
+		ActionsCount
 	};
 private:
-	std::map<sf::Keyboard::Key, Action> mKeyBinding;
+	std::map<Action, sf::Keyboard::Key> mKeyBinding;
 	std::map<Action, Command> mActionBinding;
 private:
 	static bool isRealTimeAction(Action action);

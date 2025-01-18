@@ -32,27 +32,30 @@ namespace GUI
         Fonts::Bitmaps::Text mPressedText;
         Fonts::Bitmaps::Text mSelectedText;
         Fonts::Bitmaps::Text* mText;
-        bool mIsToggle;
         Callback mCallback;
         sf::Time mElapsedTime;
         unsigned mFrameIndex;
         sf::Time const mTimeForUpdate;
+    protected:
+        void callback();
     private:
-        void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
         void buildText();
         void buildFrontFrame(Textures::TexturesHolder const& textures);
         void buildBackFrame(Textures::TexturesHolder const& textures);
         void updateBackFrame();
         void updateFrontFrame();
+    protected:
+        void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
     public:
-        Button(Fonts::Bitmaps::FontsHolder const& fonts, Textures::TexturesHolder const& textures, sf::String const& text);
-        bool isSelectable() const override final;
-        void activate() override;
-        void deactivate() override;
+        Button(std::string const& text, Fonts::Bitmaps::FontsHolder const& fonts, Textures::TexturesHolder const& textures);
+        virtual ~Button() = default;
+        bool isSelectable() const override;
+        virtual void activate() override;
+        virtual void deactivate() override;
+        virtual bool isActive() const override;
         void select() override;
         void deselect() override;
-        void handleEvent(std::optional<sf::Event> const& event) override final;
-        void setToggle(bool toggleState);
+        virtual bool handleEvent(std::optional<sf::Event> const& event) override;
         void setCallback(Callback callback);
         sf::FloatRect getLocalBounds() const;
         void update(sf::Time dt) override;

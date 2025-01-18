@@ -17,6 +17,7 @@
 #include "LoadingState.h"
 #include "TransitionForwardState.h"
 #include "TransitionBackwardState.h"
+#include "SettingState.h"
 
 const sf::Time Application::mTimePerFrame = sf::seconds(1.f / 60.f);
 const sf::Vector2u Application::mSize = { 240u, 320u };
@@ -75,6 +76,7 @@ void Application::registerStates()
 	mStateStack.registerState<States::LoadingState>(States::ID::Load);
 	mStateStack.registerState<States::TransitionForwardState>(States::ID::TransitionForward);
 	mStateStack.registerState<States::TransitionBackwardState>(States::ID::TransitionBackward);
+	mStateStack.registerState<States::SettingState>(States::ID::Settings);
 }
 
 void Application::loadRessources()

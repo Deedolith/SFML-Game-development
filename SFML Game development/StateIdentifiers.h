@@ -11,6 +11,7 @@ namespace States
 		Pause,
 		Load,
 		TransitionForward,
-		TransitionBackward
+		TransitionBackward,
+		Settings
 	};
 }

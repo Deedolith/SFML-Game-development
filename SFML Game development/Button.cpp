@@ -1,4 +1,5 @@
 #include <memory>
+#include <cassert>
 
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -16,36 +17,38 @@ namespace GUI
 		{
 			for (auto const& sprite : mBackFrameSprites)
 				target.draw(sprite, states);
-		}
-		target.draw(*mText, states);
-		if (isSelected())
-		{
 			for (auto const& sprite : mFrontFrameSprites)
 				target.draw(sprite, states);
 		}
+		target.draw(*mText, states);
+	}
+
+	void Button::callback()
+	{
+		if(mCallback)
+			mCallback();
 	}
 
 	void Button::buildText()
 	{
+		sf::Vector2f buttonCenter{ getLocalBounds().size / 2.f };
 		sf::Vector2f textCenter{ mNormalText.getLocalBounds().size / 2.f };
-		mNormalText.setOrigin(textCenter);
+		mNormalText.setOrigin(-buttonCenter + textCenter);
 		mPressedText.setOrigin(mNormalText.getOrigin());
 		mSelectedText.setOrigin(mNormalText.getOrigin());
 	}
 
 	void Button::buildFrontFrame(Textures::TexturesHolder const& textures)
 	{
-		sf::Vector2f const buttonCenter{ getLocalBounds().size / 2.f };
 		// Top left
 		sf::IntRect textureRect{ {0, 0}, {24, 24} };
 		sf::Sprite topLeftSprite{ textures.get(Textures::ID::GUIButtonFrontFrame), textureRect };
-		topLeftSprite.setOrigin(getOrigin() + buttonCenter);
 		mFrontFrameSprites.push_back(topLeftSprite);
 
 		// Top right
 		textureRect.position = { 24, 0 };
 		sf::Sprite topRightSprite{ textures.get(Textures::ID::GUIButtonFrontFrame), textureRect };
-		topRightSprite.setOrigin(topLeftSprite.getOrigin() + sf::Vector2f{ -80.f, 0.f });
+		topRightSprite.setOrigin(topLeftSprite.getOrigin() + sf::Vector2f{ -88.f, 0.f });
 		mFrontFrameSprites.push_back(topRightSprite);
 
 		// Bottom left
@@ -57,7 +60,7 @@ namespace GUI
 		// Bottom right
 		textureRect.position = { 24, 24 };
 		sf::Sprite bottomRightSprite{ textures.get(Textures::ID::GUIButtonFrontFrame), textureRect };
-		bottomRightSprite.setOrigin(topLeftSprite.getOrigin() + sf::Vector2f{ -80.f, -24.f });
+		bottomRightSprite.setOrigin(topLeftSprite.getOrigin() + sf::Vector2f{ -88.f, -24.f });
 		mFrontFrameSprites.push_back(bottomRightSprite);
 
 		for (auto const& sprite : mFrontFrameSprites)
@@ -66,21 +69,19 @@ namespace GUI
 
 	void Button::buildBackFrame(Textures::TexturesHolder const& textures)
 	{
-		sf::Vector2f const buttonCenter{ getLocalBounds().size / 2.f };
-			// Top
 		sf::IntRect textureRect{ {8, 0}, {8, 8} };
 		sf::Sprite topSprite{ textures.get(Textures::ID::GUIButtonBackFrame), textureRect };
-		topSprite.setOrigin(getOrigin() + buttonCenter + sf::Vector2f{ -8.f, -8.f });
+		topSprite.setOrigin(getOrigin() + sf::Vector2f{ -8.f, -8.f });
 		for (size_t i{ 0u }; i < 10u; ++i)
 		{
 			topSprite.setOrigin(topSprite.getOrigin() + sf::Vector2f{ -8.f, 0.f });
 			mBackFrameSprites.push_back(topSprite);
 		}
 
-			// Bight
+			// Right
 		textureRect.position = { 24, 0 };
 		sf::Sprite rightSprite{ textures.get(Textures::ID::GUIButtonBackFrame), textureRect };
-		rightSprite.setOrigin(getOrigin() + buttonCenter + sf::Vector2f{ -88.f, 0.f });
+		rightSprite.setOrigin(getOrigin() + sf::Vector2f{ -96.f, 0.f });
 		for (size_t i{ 0u }; i < 4; ++i)
 		{
 			rightSprite.setOrigin(rightSprite.getOrigin() + sf::Vector2f{ 0.f, -8.f });
@@ -90,17 +91,17 @@ namespace GUI
 			// Bottom
 		textureRect.position = { 16, 0 };
 		sf::Sprite bottomSprite{ textures.get(Textures::ID::GUIButtonBackFrame), textureRect };
-		bottomSprite.setOrigin(getOrigin() + buttonCenter + sf::Vector2f{ -8.f, -32.f });
+		bottomSprite.setOrigin(getOrigin() + sf::Vector2f{ -8.f, -32.f });
 		for (size_t i{ 0u }; i < 10; ++i)
 		{
 			bottomSprite.setOrigin(bottomSprite.getOrigin() + sf::Vector2f{ -8.f, 0.f });
 			mBackFrameSprites.push_back(bottomSprite);
 		}
 
-			// Right
+			// Left
 		textureRect.position = { 0, 0 };
 		sf::Sprite leftSprite{ textures.get(Textures::ID::GUIButtonBackFrame), textureRect };
-		leftSprite.setOrigin(getOrigin() + buttonCenter + sf::Vector2f{ -8.f, 0.f });
+		leftSprite.setOrigin(getOrigin() + sf::Vector2f{ -8.f, 0.f });
 		for (size_t i{ 0u }; i < 4; ++i)
 		{
 			leftSprite.setOrigin(leftSprite.getOrigin() + sf::Vector2f{ 0.f, -8.f });
@@ -131,7 +132,7 @@ namespace GUI
 		}
 	}
 
-	Button::Button(Fonts::Bitmaps::FontsHolder const& fonts, Textures::TexturesHolder const& textures, sf::String const& text) :
+	Button::Button(std::string const& text, Fonts::Bitmaps::FontsHolder const& fonts, Textures::TexturesHolder const& textures) :
 		Component{},
 		mBackFrameSprites{},
 		mBackFrameRects{},
@@ -140,13 +141,13 @@ namespace GUI
 		mNormalText{ fonts.get(Fonts::Bitmaps::ID::White), text },
 		mPressedText{ fonts.get(Fonts::Bitmaps::ID::Red), text },
 		mSelectedText{ fonts.get(Fonts::Bitmaps::ID::Cyan), text },
-		mIsToggle{ false },
 		mText{ &mNormalText },
 		mCallback{},
 		mElapsedTime{ sf::Time::Zero },
 		mFrameIndex{ 0u },
 		mTimeForUpdate{ sf::seconds(3.f / 60.f) }
 	{
+		assert((text.size() <= 10) && "The given text is too long.");
 		buildBackFrame(textures);
 		buildText();
 		buildFrontFrame(textures);
@@ -160,25 +161,19 @@ namespace GUI
 	void Button::activate()
 	{
 		Component::activate();
-		if (mIsToggle)
 			mText = &mPressedText;
-		if (mCallback)
-			mCallback();
-		if (!mIsToggle)
-			deactivate();
 	}
 
 	void Button::deactivate()
 	{
 		Component::deactivate();
-		if (mIsToggle)
-		{
-			if (isSelected())
-				mText = &mSelectedText;
-			else
-				mText = &mNormalText;
-		}
+		mText = &mSelectedText;
+		callback();
+	}
 
+	bool Button::isActive() const
+	{
+		return false;
 	}
 
 	void Button::select()
@@ -189,18 +184,23 @@ namespace GUI
 
 	void Button::deselect()
 	{
-
 		Component::deselect();
 		mText = &mNormalText;
 	}
 
-	void Button::handleEvent(std::optional<sf::Event> const& event)
+	bool Button::handleEvent(std::optional<sf::Event> const& event)
 	{
-	}
-
-	void Button::setToggle(bool toggleState)
-	{
-		mIsToggle = toggleState;
+		if (auto keyPressed{ event->getIf<sf::Event::KeyPressed>() })
+		{
+			if (keyPressed->code == sf::Keyboard::Key::Enter)
+				activate();
+		}
+		else if (auto keyReleased{ event->getIf<sf::Event::KeyReleased>() })
+		{
+				if (keyReleased->code == sf::Keyboard::Key::Enter)
+					deactivate();
+		}
+		return true;
 	}
 
 	void Button::setCallback(Callback callback)

@@ -1,5 +1,7 @@
 #include <string>
 
+#include <SFML/Graphics/RenderWindow.hpp>
+
 #include "TransitionForwardState.h"
 
 namespace States
@@ -13,7 +15,7 @@ namespace States
 	{
 		for (size_t i{ 0 }; i < mLayerVisibilities[index].size(); ++i)
 		{
-			std::chrono::milliseconds duration{ std::chrono::milliseconds::zero() };
+			sf::Time duration{ sf::Time::Zero };
 			for (auto const& visibility : mLayerVisibilities[index])
 			{
 				duration += visibility.getDuration();
@@ -29,7 +31,9 @@ namespace States
 		State{ stack, context },
 		mElapsedTime{ sf::Time::Zero },
 		mMap{ context.maps->get(Maps::ID::Transition) },
-		mLayerVisibilities{}
+		mLayerVisibilities{},
+		mTimePerFrame{ sf::seconds(1.f / 60.f) },
+		mDuration{ sf::seconds(mMap.getProperty("Duration").as_float() * mTimePerFrame.asSeconds()) }
 	{
 		for (unsigned i{ 0 }; i < mMap.getLayerCount(); ++i)
 		{
@@ -37,12 +41,12 @@ namespace States
 			std::string xmlFragment{ layer.getProperty("Durations").as_string() };
 			pugi::xml_document property;
 			property.load_string(xmlFragment.c_str());
-			auto items{ property.select_nodes("//item") };
+			auto const& items{ property.select_nodes("//item") };
 			std::vector<Visibility> visibilities{};
 			for (auto const& item : items)
 			{
 				bool visible{ item.node().attribute("visible").as_bool()};
-				unsigned duration{ item.node().attribute("duration").as_uint()};
+				sf::Time duration{ sf::seconds(item.node().attribute("frames").as_float() * mTimePerFrame.asSeconds()) };
 				visibilities.push_back(Visibility{ visible, duration });
 			}
 			mLayerVisibilities.push_back(visibilities);
@@ -60,8 +64,7 @@ namespace States
 	bool TransitionForwardState::update(sf::Time dt)
 	{
 		mElapsedTime += dt;
-		sf::Time duration{ sf::microseconds(mMap.getProperty("Duration").as_int()) };
-		if (mElapsedTime >= duration)
+		if (mElapsedTime >= mDuration)
 		{
 			requestStackPop();
 			requestStackPop();

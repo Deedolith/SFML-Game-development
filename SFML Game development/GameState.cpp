@@ -1,3 +1,5 @@
+#include <SFML/Graphics/RenderWindow.hpp>
+
 #include "GameState.h"
 #include "StateIdentifiers.h"
 

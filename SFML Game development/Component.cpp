@@ -1,45 +1,49 @@
 #include "Component.h"
 
-GUI::Component::Component() :
-	mIsSelected{ false },
-	mIsActive{ false }
+namespace GUI
 {
-}
+	Component::Component() :
+		mIsSelected{ false },
+		mIsActive{ false }
+	{
+	}
 
-GUI::Component::~Component()
-{
-}
+	bool Component::isSelected() const
+	{
+		return mIsSelected;
+	}
 
-bool GUI::Component::isSelected() const
-{
-    return mIsSelected;
-}
+	void Component::select()
+	{
+		mIsSelected = true;
+	}
 
-void GUI::Component::select()
-{
-	mIsSelected = true;
-}
+	void Component::deselect()
+	{
+		mIsSelected = false;
+	}
 
-void GUI::Component::deselect()
-{
-	mIsSelected = false;
-}
+	bool GUI::Component::isActive() const
+	{
+		return mIsActive;
+	}
 
-bool GUI::Component::isActive() const
-{
-    return mIsActive;
-}
+	void Component::activate()
+	{
+		mIsActive = true;
+	}
 
-void GUI::Component::activate()
-{
-	mIsActive = true;
-}
+	void Component::deactivate()
+	{
+		mIsActive = false;
+	}
 
-void GUI::Component::deactivate()
-{
-	mIsActive = false;
-}
+	bool Component::handleEvent(std::optional<sf::Event> const& event)
+	{
+		return true;
+	}
 
-void GUI::Component::update(sf::Time dt)
-{
+	void Component::update(sf::Time dt)
+	{
+	}
 }

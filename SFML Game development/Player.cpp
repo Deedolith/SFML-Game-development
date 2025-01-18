@@ -23,10 +23,12 @@ bool Player::isRealTimeAction(Action action)
 
 void Player::setInitialKeyBinding()
 {
-	mKeyBinding[sf::Keyboard::Key::Q] = Action::MoveLeft;
-	mKeyBinding[sf::Keyboard::Key::D] = Action::MoveRight;
-	mKeyBinding[sf::Keyboard::Key::Z] = Action::MoveUp;
-	mKeyBinding[sf::Keyboard::Key::S] = Action::MoveDown;
+	mKeyBinding[Action::MoveLeft] = sf::Keyboard::Key::Q;
+	mKeyBinding[Action::MoveRight] = sf::Keyboard::Key::D;
+	mKeyBinding[Action::MoveUp] = sf::Keyboard::Key::Z;
+	mKeyBinding[Action::MoveDown] = sf::Keyboard::Key::S;
+	mKeyBinding[Action::Fire] = sf::Keyboard::Key::Enter;
+	mKeyBinding[Action::LaunchMissile] = sf::Keyboard::Key::RShift;
 }
 
 void Player::setInitialActionBinding()
@@ -70,24 +72,24 @@ void Player::handleRealTimeInput(CommandQueue& commands)
 {
 	for (auto pair : mKeyBinding)
 	{
-		if (sf::Keyboard::isKeyPressed(pair.first) && isRealTimeAction(pair.second))
+		if (sf::Keyboard::isKeyPressed(pair.second) && isRealTimeAction(pair.first))
 		{
-			commands.push(mActionBinding[pair.second]);
+			commands.push(mActionBinding[pair.first]);
 		}
 	}
 }
 
 void Player::assignKey(Action action, sf::Keyboard::Key key)
 {
-	mKeyBinding[key] = action;
+	mKeyBinding[action] = key;
 }
 
 sf::Keyboard::Key Player::getAssignedKey(Action action) const
 {
 	for(auto pair : mKeyBinding)
 	{
-		if (pair.second == action)
-			return pair.first;
+		if (pair.first == action)
+			return pair.second;
 	}
 
 	return sf::Keyboard::Key::Unknown;

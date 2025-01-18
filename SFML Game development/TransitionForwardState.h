@@ -5,6 +5,7 @@
 
 #include <SFML/System/Time.hpp>
 #include <SFML/Window/Event.hpp>
+#include <SFML/System/Time.hpp>
 
 #include "StateIdentifiers.h"
 #include "StateStack.h"
@@ -21,6 +22,8 @@ namespace States
         sf::Time mElapsedTime;
         Maps::Map mMap;
         std::vector<std::vector<Visibility>> mLayerVisibilities;
+        sf::Time const mTimePerFrame;
+        sf::Time mDuration;
     private:
         void updateLayers();
         void updateLayer(Maps::Map::Layer& layer, size_t index);

@@ -22,7 +22,7 @@ namespace GUI
 		Component();
 		Component(Component const&) = delete;
 		Component& operator=(Component const&) = delete;
-		virtual ~Component();
+		virtual ~Component() = default;
 		virtual bool isSelectable() const = 0;
 		bool isSelected() const;
 		virtual void select();
@@ -30,7 +30,7 @@ namespace GUI
 		virtual bool isActive() const;
 		virtual void activate();
 		virtual void deactivate();
-		virtual void handleEvent(std::optional<sf::Event> const& event) = 0;
+		virtual bool handleEvent(std::optional<sf::Event> const& event);
 		virtual void update(sf::Time dt);
 	};
 }

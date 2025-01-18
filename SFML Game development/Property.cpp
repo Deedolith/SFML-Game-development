@@ -19,6 +19,11 @@ namespace Maps
 		return std::stoi(mValue);
 	}
 
+	float Property::as_float() const
+	{
+		return std::stof(mValue);
+	}
+
 	std::string Property::as_string() const
 	{
 		return mValue;

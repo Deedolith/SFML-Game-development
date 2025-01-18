@@ -41,7 +41,7 @@ namespace Fonts
 
 		sf::FloatRect Text::getLocalBounds() const
 		{
-			sf::Vector2f size{ static_cast<float>(mFont.getGlyphSize().x * mText.getSize()), static_cast<float>(mFont.getGlyphSize().y) };
+			sf::Vector2f size{ mFont.getGlyphSize().x * mText.getSize(), mFont.getGlyphSize().y };
 			sf::Vector2f position{ getOrigin() };
 			return sf::FloatRect{ position, size };
 		}
